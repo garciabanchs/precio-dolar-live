@@ -906,7 +906,7 @@
       formData.append("period_key", "d7");
 
       try {
-        const response = await fetch("/upload", {
+        const response = await fetch("https://precio-dolar-live.onrender.com/upload", {
           method: "POST",
           body: formData
         });
