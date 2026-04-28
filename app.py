@@ -2636,9 +2636,16 @@ async def upload_excel(
         if not trial_ok:
             return trial_expired_response()
 
-    content = await file.read()
-    payload = read_excel_payload(content)
-    old_prices_hash = build_old_prices_hash_from_payload(payload)
+    try:
+        content = await file.read()
+        payload = read_excel_payload(content)
+        old_prices_hash = build_old_prices_hash_from_payload(payload)
+    except Exception as exc:
+        print("ERROR_UPLOAD_EXCEL:", repr(exc))
+        raise HTTPException(
+            status_code=400,
+            detail=f"No se pudo leer el Excel: {str(exc)}"
+        )
     access_status = register_unique_file_usage(client_id, file.filename, old_prices_hash)
 
     fx_snapshot = json.loads(fx_snapshot_json)
