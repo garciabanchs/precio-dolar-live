@@ -2658,7 +2658,7 @@ async def upload_excel(
         "bcv": "bcv",
         "monitor": "monitor",
         "promedio": "promedio",
-        "compuesto": "promedio",
+        "compuesto": "compuesto",
         "binance": "binance",
         "usdt": "usdt",
         "dolartoday": "dolartoday"
@@ -2674,7 +2674,7 @@ async def upload_excel(
         period_key=period_key
     )
 
-    fx_pair["tcbc_t"] = real_snapshot["bcv"]
+    fx_pair["tcbc_t"] = real_snapshot.get("bcv", fx_snapshot.get("bcv", 0))
     fx_pair["tcm_t"] = fx_snapshot[selected_source]
 
     mercados_resumen = []
@@ -2710,7 +2710,7 @@ async def upload_excel(
             )
 
             if fx_key == "compuesto":
-                tcm_today = fx_snapshot.get("promedio", fx_snapshot.get("monitor"))
+                tcm_today = fx_snapshot.get("compuesto", fx_snapshot.get("promedio", fx_snapshot.get("monitor")))
             else:
                 tcm_today = fx_snapshot.get(fx_key, fx_snapshot.get("monitor"))
 
@@ -2785,7 +2785,7 @@ async def upload_excel(
         },
         "fx_summary_cards": {
             "compuesto": {
-                "valor": round(fx_snapshot.get("promedio", 0), 2),
+                "valor": round(fx_snapshot.get("compuesto", fx_snapshot.get("promedio", 0)), 2),
                 "d7": 5.0,
                 "m1": 12.1,
                 "m3": 26.9,
@@ -2809,7 +2809,7 @@ async def upload_excel(
                 "var": 5.2
             },
             "compuesto": {
-                "valor": round(fx_snapshot.get("promedio", 0), 2),
+                "valor": round(fx_snapshot.get("compuesto", fx_snapshot.get("promedio", 0)), 2),
                 "var": 5.0
             },
             "binance": {
