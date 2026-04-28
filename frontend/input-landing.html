@@ -853,7 +853,7 @@
   const excelFileInput = document.getElementById("excel-file");
   const selectedFileName = document.getElementById("selected-file-name");
   const uploadForm = document.getElementById("upload-form");
-  const uploadStatus = document.getElementById("upload-status
+  const uploadStatus = document.getElementById("upload-status");
   const API_BASE = "https://precio-dolar-live.onrender.com";
 
   if (selectFileBtn && excelFileInput) {
@@ -907,7 +907,7 @@
       formData.append("period_key", "d7");
 
       try {
-        const response = await fetch("/upload", {
+        const response = await fetch(`${API_BASE}/upload`, {
           method: "POST",
           body: formData
         });
@@ -927,7 +927,7 @@
                 <a href="https://buy.stripe.com/test_cNi9AScF13mm20e6GDawo03" target="_blank" style="background:#14532d;color:white;padding:10px 14px;border-radius:8px;text-decoration:none;font-weight:bold;">
                   Plan Premium — 99 USD
                 </a>
-                  <a href="/pago-bs?email=${encodeURIComponent(email)}" target="_blank" style="background:#22c55e;color:white;padding:10px 14px;border-radius:8px;text-decoration:none;font-weight:bold;">
+                  <a href="${API_BASE}/pago-bs?email=${encodeURIComponent(email)}" target="_blank" style="background:#22c55e;color:white;padding:10px 14px;border-radius:8px;text-decoration:none;font-weight:bold;">
                   Pagar en bolívares / Pago móvil
                 </a>
               </div>
@@ -944,10 +944,10 @@
         console.log("Resultado upload:", result);
 
         const reportUrl = email
-          ? `/report-page?email=${encodeURIComponent(email)}`
-          : "/report-page";
+          ? `${API_BASE}/report-page?email=${encodeURIComponent(email)}`
+          : `${API_BASE}/report-page`;
 
-            window.location.href = reportUrl;
+        window.location.href = reportUrl;
       } catch (error) {
         console.error(error);
         uploadStatus.textContent = `Error: ${error.message}`;
@@ -959,7 +959,7 @@
 
   async function loadFxHistoryForLanding() {
     try {
-      const response = await fetch("/fx/history?period=7d");
+      const response = await fetch(`${API_BASE}/fx/history?period=7d`);
       FX_HISTORY = await response.json();
       renderDecapitalization();
     } catch (error) {
