@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="https://angelgarciabanchs.com/wp-content/uploads/2025/06/imagen-circular.png">
+  <title>Pago en bolívares | PrecioDólar LIVE</title>
+
+  <style>
+    :root{
+      --green-1:#16a34a;
+      --green-2:#15803d;
+      --green-3:#064e3b;
+      --bg:#f3fbf6;
+      --text:#0f172a;
+      --muted:#64748b;
+      --line:#dbeafe;
+      --soft:#ecfdf5;
+      --danger:#7f1d1d;
+      --shadow:0 24px 70px rgba(15,23,42,.12);
+    }
+
+    *{box-sizing:border-box}
+
+    html{scroll-behavior:smooth;}
+
+    body{
+      margin:0;
+      font-family:Inter,Arial,Helvetica,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(34,197,94,.18), transparent 30%),
+        radial-gradient(circle at 85% 10%, rgba(22,163,74,.13), transparent 28%),
+        linear-gradient(180deg,#f8fffb,#edf8f0);
+      min-height:100vh;
+    }
+
+    .wrap{
+      width:min(1120px,calc(100% - 28px));
+      margin:0 auto;
+      padding:34px 0 60px;
+    }
+
+    .hero{
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:22px;
+      background:rgba(255,255,255,.9);
+      border:1px solid rgba(255,255,255,.8);
+      box-shadow:var(--shadow);
+      border-radius:34px;
+      padding:30px;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      background:var(--soft);
+      color:var(--green-2);
+      border:1px solid #bbf7d0;
+      border-radius:999px;
+      padding:8px 12px;
+      font-size:13px;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+    }
+
+    h1{
+      font-size:clamp(2rem,4vw,3.3rem);
+      line-height:1.02;
+      margin:18px 0 14px;
+      letter-spacing:-.05em;
+    }
+
+    p{
+      color:var(--muted);
+      line-height:1.7;
+      font-size:1rem;
+    }
+
+    .notice{
+      background:#fff7ed;
+      border:1px solid #fed7aa;
+      color:#7c2d12;
+      border-radius:20px;
+      padding:16px;
+      margin-top:18px;
+      font-weight:700;
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+      margin-top:20px;
+    }
+
+    .plan{
+      background:white;
+      border:1px solid #dcfce7;
+      border-radius:24px;
+      padding:20px;
+      box-shadow:0 12px 30px rgba(15,23,42,.06);
+    }
+
+    .plan h2{
+      margin:0 0 8px;
+      font-size:1.25rem;
+      color:var(--green-3);
+    }
+
+    .usd{
+      font-size:1.9rem;
+      font-weight:950;
+      margin:6px 0;
+    }
+
+    .bs{
+      font-size:1.35rem;
+      font-weight:950;
+      color:var(--green-2);
+    }
+
+    .small{
+      font-size:.88rem;
+      color:var(--muted);
+      line-height:1.5;
+    }
+
+    ul{
+      padding-left:18px;
+      color:#334155;
+      line-height:1.65;
+      margin-bottom:0;
+    }
+
+    .payment-box{
+      background:linear-gradient(135deg,#064e3b,#15803d);
+      color:white;
+      border-radius:28px;
+      padding:24px;
+      box-shadow:0 20px 50px rgba(6,78,59,.25);
+    }
+
+    .payment-box h2{
+      margin:0 0 12px;
+      font-size:1.5rem;
+    }
+
+    .payment-box p{
+      color:#dcfce7;
+    }
+
+    .qr{
+      width:100%;
+      max-width:380px;
+      display:block;
+      margin:16px auto;
+      border-radius:22px;
+      background:white;
+      padding:10px;
+    }
+
+    .data{
+      background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.18);
+      border-radius:18px;
+      padding:14px;
+      line-height:1.65;
+      font-weight:700;
+      margin-top:14px;
+    }
+
+    .buttons{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:18px;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:14px;
+      padding:13px 18px;
+      font-weight:900;
+      text-decoration:none;
+      border:0;
+      cursor:pointer;
+    }
+
+    .btn-primary{
+      background:var(--green-3);
+      color:white;
+    }
+
+    .btn-light{
+      background:white;
+      color:var(--green-3);
+    }
+
+    .btn-whatsapp{
+      background:#22c55e;
+      color:white;
+    }
+
+    .section{
+      margin-top:24px;
+      background:rgba(255,255,255,.92);
+      border:1px solid rgba(255,255,255,.8);
+      border-radius:30px;
+      padding:26px;
+      box-shadow:0 18px 45px rgba(15,23,42,.08);
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      overflow:hidden;
+      border-radius:18px;
+      font-size:.95rem;
+    }
+
+    th{
+      background:var(--green-3);
+      color:white;
+      text-align:left;
+      padding:13px;
+    }
+
+    td{
+      padding:13px;
+      border-bottom:1px solid #e2e8f0;
+      vertical-align:top;
+    }
+
+    td:nth-child(2),td:nth-child(3){
+      text-align:center;
+      font-weight:900;
+    }
+
+    .form-frame{
+      width:100%;
+      height:900px;
+      border:0;
+      border-radius:22px;
+      background:white;
+    }
+
+    .footer{
+      text-align:center;
+      color:var(--muted);
+      margin-top:24px;
+      font-size:.9rem;
+    }
+
+    @media(max-width:900px){
+      .hero,.cards{grid-template-columns:1fr}
+      .hero{padding:20px}
+      .section{padding:18px}
+      table{font-size:.86rem}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <section class="hero">
+      <div>
+        <div class="badge">PrecioDólar LIVE · Pago en bolívares</div>
+
+        <h1>Tu período de acceso gratuito ha finalizado</h1>
+
+        <p>
+            Has probado PrecioDólar LIVE y ya puedes usarlo con frecuencia en tu operación real.
+            Para seguir generando reportes y actualizaciones de precios, activa tu plan.
+        </p>
+        <div class="notice">
+          Los precios en bolívares se calculan con la referencia cambiaria disponible del sistema,
+          excluyendo BCV. Si existe tipo de cambio compuesto, se usa como referencia principal.
+        </div>
+
+        <div class="cards">
+          <article class="plan">
+            <h2>Plan Básico</h2>
+            <div class="usd">$49 / mes</div>
+            <div class="bs" id="basic-bs">Calculando Bs...</div>
+            <div class="small" id="basic-rate"></div>
+            <ul>
+              <li>PDF Ejecutivo</li>
+              <li>PDF Operativo</li>
+              <li>PDF Tienda</li>
+              <li>Excel Operativo</li>
+              <li>HTML Desktop y Móvil</li>
+              <li>ZIP operativo completo</li>
+            </ul>
+          </article>
+
+          <article class="plan">
+            <h2>Plan Premium</h2>
+            <div class="usd">$99 / mes</div>
+            <div class="bs" id="premium-bs">Calculando Bs...</div>
+            <div class="small" id="premium-rate"></div>
+            <ul>
+              <li>Todo lo del Plan Básico</li>
+              <li>WooCommerce JSON</li>
+              <li>Shopify CSV</li>
+              <li>ZIP e-commerce completo</li>
+              <li>Preparado para actualizar tienda online</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="buttons">
+          <a class="btn btn-primary" href="https://buy.stripe.com/test_dRm5kCfRdcWW7kyghdawo02" target="_blank">
+            Pagar Básico en USD
+          </a>
+          <a class="btn btn-primary" href="https://buy.stripe.com/test_cNi9AScF13mm20e6GDawo03" target="_blank">
+            Pagar Premium en USD
+          </a>
+          <a class="btn btn-whatsapp" id="whatsapp-link" target="_blank">
+            Consultar por WhatsApp
+          </a>
+          <a href="#confirmar-pago" class="btn btn-light">
+            Confirmar pago en bolívares ↓
+          </a>
+        </div>
+      </div>
+
+      <aside class="payment-box">
+        <h2>Pago móvil Mercantil</h2>
+        <p>
+          Realiza el pago móvil con los datos siguientes. Luego completa el formulario de confirmación
+          que aparece más abajo para activar tu acceso.
+        </p>
+
+        <img class="qr" src="/frontend/assets/pago-movil-mercantil.png" alt="Pago móvil Mercantil QR">
+
+        <div class="data">
+            Nombre: Ángel García Banchs<br>
+            Cédula: V-12.626.572<br>
+            Teléfono (Pago Móvil únicamente): 0414-0149145<br>
+            Banco: Mercantil<br>
+            Cuenta corriente Nro.: 0105-0026-56-1026487455
+        </div>
+      </aside>
+    </section>
+
+    <section class="section">
+      <h2>Qué incluye cada plan</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Función / descarga</th>
+            <th>Básico</th>
+            <th>Premium</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>PDF Ejecutivo</strong><br>Resumen para gerencia, socios o dirección.</td>
+            <td>✔</td>
+            <td>✔</td>
+          </tr>
+          <tr>
+            <td><strong>PDF Operativo</strong><br>Detalle para administración y equipo interno.</td>
+            <td>✔</td>
+            <td>✔</td>
+          </tr>
+          <tr>
+            <td><strong>PDF Tienda</strong><br>Lectura rápida para piso de venta.</td>
+            <td>✔</td>
+            <td>✔</td>
+          </tr>
+          <tr>
+            <td><strong>Excel Operativo</strong><br>Para revisar, auditar y trabajar precios en hoja de cálculo.</td>
+            <td>✔</td>
+            <td>✔</td>
+          </tr>
+          <tr>
+            <td><strong>HTML Desktop y Móvil</strong><br>Reporte visual para computador y teléfono.</td>
+            <td>✔</td>
+            <td>✔</td>
+          </tr>
+          <tr>
+            <td><strong>ZIP Operativo</strong><br>Paquete operativo completo para compartir.</td>
+            <td>✔</td>
+            <td>✔</td>
+          </tr>
+          <tr>
+            <td><strong>WooCommerce JSON</strong><br>Archivo preparado para actualizar tienda WooCommerce.</td>
+            <td>—</td>
+            <td>✔</td>
+          </tr>
+          <tr>
+            <td><strong>Shopify CSV</strong><br>Archivo preparado para actualizar tienda Shopify.</td>
+            <td>—</td>
+            <td>✔</td>
+          </tr>
+          <tr>
+            <td><strong>ZIP e-commerce</strong><br>Paquete completo WooCommerce + Shopify.</td>
+            <td>—</td>
+            <td>✔</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section" id="confirmar-pago">
+        <h2>Confirma tu pago en bolívares</h2>
+      <p>
+        Completa este formulario después de pagar. Recibiremos tu solicitud y activaremos tu acceso a la brevedad.
+      </p>
+
+      <iframe id="form-frame" class="form-frame">Cargando…</iframe>
+    </section>
+
+    <div class="footer">
+      PrecioDólar LIVE · Activación manual por pago móvil en bolívares.
+    </div>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const email = params.get("email");
+
+    const GOOGLE_FORM_BASE = "https://docs.google.com/forms/d/e/1FAIpQLSdCFe4EHrcFzPkN3XrLW0nfvvwc4HfSTmrShuL8OTS7WGGL1A/viewform";
+
+    function getGoogleFormUrl(emailValue) {
+      if (!emailValue) return `${GOOGLE_FORM_BASE}?embedded=true`;
+      return `${GOOGLE_FORM_BASE}?embedded=true&usp=pp_url&entry.1916138324=${encodeURIComponent(emailValue)}`;
+    }
+
+    document.getElementById("form-frame").src = getGoogleFormUrl(email);
+
+    const whatsappMsg = encodeURIComponent(
+      `Hola, Ángel. Quiero activar PrecioDólar LIVE pagando en bolívares.${email ? "\n\nMi email es: " + email : ""}`
+    );
+
+    document.getElementById("whatsapp-link").href =
+      `https://api.whatsapp.com/send?phone=34622197658&text=${whatsappMsg}`;
+
+    function formatBs(value) {
+      return `Bs. ${Math.round(value).toLocaleString("es-VE")}`;
+    }
+
+    function pickPaymentRate(fx) {
+      const candidates = [];
+
+      const compuesto = Number(
+        fx?.compuesto?.valor ??
+        fx?.compuesto ??
+        fx?.fx_boxes?.compuesto?.valor ??
+        fx?.fx_kpis?.compuesto
+      );
+
+      if (compuesto && compuesto > 0) {
+        return { rate: compuesto, label: "Tipo de cambio compuesto" };
+      }
+
+      const names = ["monitor", "binance", "usdt", "dolartoday", "promedio"];
+
+      for (const name of names) {
+        const value = Number(
+          fx?.[name]?.valor ??
+          fx?.[name] ??
+          fx?.fx_boxes?.[name]?.valor
+        );
+
+        if (value && value > 0) {
+          candidates.push({ name, value });
+        }
+      }
+
+      candidates.sort((a, b) => a.value - b.value);
+
+      if (candidates.length) {
+        return {
+          rate: candidates[0].value,
+          label: `Referencia: ${candidates[0].name} (menor excluyendo BCV)`
+        };
+      }
+
+      return { rate: 100, label: "Referencia temporal" };
+    }
+
+    async function loadPrices() {
+      try {
+        const response = await fetch("/fx");
+        const fx = await response.json();
+
+        const picked = pickPaymentRate(fx);
+        const basicBs = 49 * picked.rate;
+        const premiumBs = 99 * picked.rate;
+
+        document.getElementById("basic-bs").textContent = formatBs(basicBs);
+        document.getElementById("premium-bs").textContent = formatBs(premiumBs);
+
+        document.getElementById("basic-rate").textContent =
+          `${picked.label}: ${formatBs(picked.rate)} por USD`;
+
+        document.getElementById("premium-rate").textContent =
+          `${picked.label}: ${formatBs(picked.rate)} por USD`;
+
+      } catch (error) {
+        document.getElementById("basic-bs").textContent = "Bs. por confirmar";
+        document.getElementById("premium-bs").textContent = "Bs. por confirmar";
+        document.getElementById("basic-rate").textContent = "Consulta por WhatsApp para confirmar la tasa.";
+        document.getElementById("premium-rate").textContent = "Consulta por WhatsApp para confirmar la tasa.";
+      }
+    }
+
+    loadPrices();
+    setInterval(loadPrices, 5 * 60 * 1000);
+  </script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+fastapi
+uvicorn[standard]
+python-multipart
+python-dotenv
+requests
+pandas
+openpyxl
+reportlab
+stripe
+beautifulsoup4
+lxml
+cachetools
