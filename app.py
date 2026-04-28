@@ -2554,9 +2554,11 @@ def generate_market_fx_ecommerce_zip(report_data: dict, market_key: str, fx_key:
     return zip_path
 
 
+from fastapi.responses import RedirectResponse
+
 @app.get("/")
 def root():
-    return {"message": "PrecioDólar LIVE backend funcionando"}
+    return RedirectResponse(url="/upload-page")
 
 
 @app.get("/upload-page")
