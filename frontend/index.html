@@ -434,14 +434,17 @@
       <section class="hero">
         <div class="hero-copy">
           <div>
-            <div class="hero-kicker">Lectura ejecutiva para gerencia y piso de venta</div>
-            <h2>Tus nuevos precios ya están listos para el próximo ciclo comercial.</h2>
+            <div class="hero-kicker">Resultado final: precios listos para implementar</div>
+            <h2>Tus nuevos precios en USD ya están listos para usar.</h2>
           </div>
           <p>
-            Este reporte muestra la actualización premium de precios con base en tres mercados, múltiples referencias cambiarias y un motor que pondera competencia, rotación y fluctuaciones del diferencial cambiario. La vista está pensada para que gerencia tome decisiones rápido y para que el equipo de piso de venta lea con claridad precio viejo, precio nuevo y señal operativa.
+            PrecioDólar LIVE procesó tu archivo y convirtió tus datos en precios sugeridos por mercado, con lectura cambiaria, referencia competitiva y señal operativa clara.
           </p>
           <p>
-            En esta demo, el producto sugiere ajustes diferenciados para Caracas, Valencia y Occidente, con capacidad de cambiar instantáneamente entre Compuesto, Monitor, Binance, USDT y DolarToday, además de generar PDFs ejecutivos y operativos por mercado.
+            Ahora puedes revisar el impacto, cambiar de mercado o referencia cambiaria, y descargar reportes ejecutivos, operativos, de tienda y archivos listos para implementación.
+          </p>
+          <p>
+            El beneficio es simple: menos horas ajustando precios, menos riesgo de descapitalizarte y más velocidad para salir al próximo ciclo comercial.
           </p>
         </div>
 
@@ -508,9 +511,9 @@
       <section class="section" id="analisis-cambiario">
         <div class="section-head">
           <div>
-            <h3 class="section-title">Qué pasó con los tipos de cambio</h3>
+            <h3 class="section-title">Contexto cambiario para decidir precios</h3>
             <p class="section-sub">
-              Lectura ejecutiva multi-horizonte de las referencias gratuitas más relevantes para pricing. La utilidad operativa está en la comparación semanal; la utilidad gerencial y estratégica aparece al contrastar además el último mes, trimestre y año.
+              Compara las referencias cambiarias clave para entender si tus precios deben subir, mantenerse o revisarse con más cautela.
             </p>
           </div>
         </div>
@@ -662,9 +665,9 @@
       <section class="section" id="precios">
         <div class="section-head">
           <div>
-            <h3 class="section-title">Panel maestro de precios por mercado y referencia</h3>
+            <h3 class="section-title">Precios sugeridos por mercado y referencia</h3>
             <p class="section-sub">
-              El gerente se mueve en dos dimensiones: mercado y tipo de cambio. El equipo operativo ve siempre precio viejo, precio nuevo y señal, sin ambigüedad. En producción, estos selectores cambiarían la data en tiempo real.
+              Selecciona el mercado y la referencia cambiaria. La tabla te muestra precio viejo, precio nuevo, variación y señal operativa para ejecutar sin ambigüedad.
             </p>
           </div>
         </div>
@@ -723,7 +726,7 @@
       <section class="section" id="descargas">
         <div class="section-head">
           <div>
-            <h3 class="section-title">Descargas listas para implementación</h3>
+            <h3 class="section-title">Descarga tus reportes y archivos de implementación</h3>
             <p class="section-sub" id="download-context">
               Descargas generadas para el mercado y la referencia cambiaria seleccionados.
             </p>
@@ -819,7 +822,7 @@
           <div class="section-head" style="padding:0 0 18px;">
             <div>
               <h3 class="section-title">Programas, libros y mentorías</h3>
-              <p class="section-sub">Bloque comercial orientado a conversión real.</p>
+              <p class="section-sub">Cursos, libros y mentorías para profundizar en finanzas, pricing y automatización empresarial.</p>
             </div>
           </div>
 
@@ -827,7 +830,7 @@
             <div class="promo-card">
               <div class="promo-badge">🎓 Cursos online</div>
               <div class="promo-title">Empieza por el bundle principal</div>
-              <p class="promo-text">Si este producto te interesa, este CTA debe llevarte directo al bundle que concentra más valor y más probabilidad de conversión.</p>
+              <p class="promo-text">Si mi programa de cursos te interesa, haz clic y contáctame por WhatsApp para ver si en este momento dispongo de becas parciales.</p>
               <div class="cta-row">
                 <a class="btn btn-primary" href="https://garciabanchs.thinkific.com/bundles/camino-a-la-riqueza" target="_blank" rel="noopener">Comprar Camino a la Riqueza</a>
                 <a class="btn btn-secondary" href="https://garciabanchs.thinkific.com/" target="_blank" rel="noopener">Ver todos los cursos online</a>
@@ -878,7 +881,7 @@
         <div class="section-head">
           <div>
             <h3 class="section-title">Anexo metodológico para interesados en la fórmula</h3>
-            <p class="section-sub">Debe permanecer fuera del flujo principal de venta, pero accesible para quien quiera validar rigor económico y robustez conceptual.</p>
+            <p class="section-sub">Disponible para quien quiera revisar la lógica económica detrás del cálculo.</p>
           </div>
         </div>
 
@@ -965,7 +968,7 @@
       </section>
 
       <div class="footer-card">
-        <div><strong>PrecioDólar LIVE</strong> · Reporte generado con datos procesados por PrecioDólar LIVE · Estructura diseñada para futura conexión con Excel, APIs gratuitas y cálculo automatizado.</div>
+        <div><strong>PrecioDólar LIVE · © 2026 Ángel García Banchs. Todos los derechos reservados.</strong></div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;">
           <div class="footer-pill">Mercados: 3</div>
           <div class="footer-pill">Referencias: 5 + Compuesto</div>
@@ -1577,7 +1580,7 @@ function bindToolbarEvents() {
 
   // Empresa
   document.getElementById("company-name").textContent =
-    `Reporte premium de actualización de precios · ${REPORT_DATA.company_name}`;
+    `Precios en USD listos para implementar · ${REPORT_DATA.company_name}`;
 
   // Mercados
   const totalMarkets = REPORT_DATA.markets.length;
