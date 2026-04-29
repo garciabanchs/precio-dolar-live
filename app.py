@@ -54,6 +54,10 @@ from backend.services.fx_orchestrator import (
 
 import requests
 
+CRONSECRET = os.getenv("CRONSECRET")
+if not CRONSECRET:
+    raise RuntimeError("CRONSECRET no configurado en entorno")
+
 SHEET_API = "https://script.google.com/macros/s/AKfycbyaGdtjWoZTrsfLqSRa3ZBE--9P_ENYJrQFutCuR_cMbgUGb-3xKGnp2gB1ta2CxHrS/exec"
 
 app = FastAPI()
@@ -3653,7 +3657,12 @@ def report_ecommerce_zip(request: Request, market_key: str, fx_key: str):
     )
 
 @app.post("/fx/update-daily")
-def update_daily_fx():
+async def update_daily_fx(request: Request):
+    body = await request.json()
+
+    if body.get("secret") != CRONSECRET:
+        raise HTTPException(status_code=403, detail="Forbidden")
+
     today = datetime.now().strftime("%Y-%m-%d")
 
     data = build_flat_fx_values()
