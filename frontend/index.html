@@ -170,7 +170,16 @@
     .story-card p,.insight-card p,.method-card p,.cta-mini-card p{margin:0 0 14px;color:var(--muted);line-height:1.78;font-size:.98rem;}
     .insight-card{background:radial-gradient(circle at top right, rgba(34,197,94,.16), transparent 34%),linear-gradient(180deg,#ffffff,#f8fff9);display:flex;flex-direction:column;justify-content:space-between;gap:16px;}
     .bullet-list{display:grid;gap:12px;}
-    .bullet{display:flex;align-items:flex-start;gap:12px;color:var(--muted);line-height:1.6;font-weight:650;}
+    .bullet{
+      display:flex;
+      align-items:flex-start;
+      gap:12px;
+      color:var(--muted);
+      line-height:1.6;
+      font-weight:650;
+      text-align:left;
+      justify-content:flex-start;
+    }
     .bullet::before{content:"";width:10px;height:10px;margin-top:7px;border-radius:999px;background:linear-gradient(135deg,var(--green-1),var(--green-2));flex:none;}
 
     .chart-shell{padding:0 22px 22px;}
@@ -645,18 +654,20 @@
         <div class="story-layout">
           <article class="story-card">
             <h3>Lectura automática del contexto cambiario</h3>
-            <p>Durante la última semana, todas las referencias paralelas de la demo subieron más rápido que el <span data-fx-label="bcv">BCV</span>. En términos operativos, esto sugiere presión al alza sobre los precios si el negocio desea mantener capacidad de reposición efectiva de inventario.</p>
-            <p>La mayor tensión se observa en <span data-fx-label="dolartoday">DolarToday</span> y <span data-fx-label="binance">Binance</span>, mientras que el tipo de cambio <span data-fx-label="compuesto">compuesto</span> y <span data-fx-label="monitor">Monitor</span> permanecen como referencias más equilibradas para construir una estrategia de pricing con menor dispersión y mayor legibilidad para el equipo comercial.</p>
-            <p>En un contexto como este, el horizonte semanal sigue siendo el más útil para revisar precios; sin embargo, la lectura mensual, trimestral y anual ayuda a distinguir si el movimiento actual es un salto puntual o parte de una tendencia sostenida de descapitalización potencial.</p>
+            <p>Durante el período analizado, las referencias de mercado deben compararse con el <span data-fx-label="bcv">BCV</span> para identificar posibles presiones sobre los precios. En términos operativos, esta lectura permite evaluar si es necesario ajustar precios para mantener la capacidad de reposición efectiva de inventario.</p>
+
+            <p>Las diferencias entre referencias como <span data-fx-label="dolartoday">DolarToday</span>, <span data-fx-label="binance">Binance</span> y otras cotizaciones de mercado frente al <span data-fx-label="bcv">BCV</span> ayudan a dimensionar el nivel de tensión cambiaria. En este contexto, el tipo de cambio <span data-fx-label="compuesto">compuesto</span> y <span data-fx-label="monitor">Monitor</span> funcionan como referencias más equilibradas para construir una estrategia de pricing con menor dispersión y mayor consistencia operativa.</p>
+
+            <p>El horizonte de análisis puede ajustarse según la necesidad del negocio. El corto plazo permite reaccionar rápidamente a cambios recientes, mientras que los horizontes mensual, trimestral y anual ayudan a distinguir si los movimientos responden a fluctuaciones puntuales o a tendencias sostenidas que puedan impactar la rentabilidad.</p>
           </article>
 
           <aside class="insight-card">
             <div><h3 style="margin:0 0 16px;">Qué debería mirar la gerencia</h3></div>
             <div class="bullet-list">
-              <div class="bullet">La brecha <span data-fx-label="bcv">BCV</span> vs <span data-fx-label="monitor">Monitor</span> es la alerta central del reporte.</div>
-              <div class="bullet"><span data-fx-label="binance">Binance</span> y <span data-fx-label="usdt">USDT</span> pueden servir como referencia de mercado transaccional.</div>
-              <div class="bullet">El tipo de cambio <span data-fx-label="compuesto">compuesto</span> ofrece una referencia más robusta; <span data-fx-label="monitor">Monitor</span> sirve como contraste directo de mercado.</div>
-              <div class="bullet"><span data-fx-label="dolartoday">DolarToday</span> funciona mejor como referencia extrema o de contraste.</div>
+              <div class="bullet">La brecha entre <span data-fx-label="bcv">BCV</span> y <span data-fx-label="monitor">Monitor</span> muestra si existe riesgo de descapitalización.</div>
+              <div class="bullet"><span data-fx-label="binance">Binance</span> y <span data-fx-label="usdt">USDT</span> ayudan a contrastar referencias transaccionales de mercado.</div>
+              <div class="bullet">El tipo de cambio <span data-fx-label="compuesto">compuesto</span> ofrece una referencia más robusta para decidir precios.</div>
+              <div class="bullet"><span data-fx-label="dolartoday">DolarToday</span> funciona como referencia extrema o de contraste.</div>
             </div>
           </aside>
         </div>
