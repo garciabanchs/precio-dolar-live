@@ -854,7 +854,7 @@
   const selectedFileName = document.getElementById("selected-file-name");
   const uploadForm = document.getElementById("upload-form");
   const uploadStatus = document.getElementById("upload-status");
-  const API_BASE = "https://precio-dolar-live.onrender.com";
+  const API_BASE = window.location.origin;
 
   if (selectFileBtn && excelFileInput) {
     selectFileBtn.addEventListener("click", () => {
