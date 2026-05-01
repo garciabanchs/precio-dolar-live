@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import csv
 import io
+import json
 import math
 import time
 import urllib.request
@@ -9,11 +10,7 @@ from datetime import datetime
 from typing import Any, Dict, List, Optional
 
 
-SHEET_CSV_URL = (
-    "https://docs.google.com/spreadsheets/d/"
-    "1EW2BU7VBR2g6AyPOQL_P2ok9VD1QMDvRDak2tEGNNC4"
-    "/export?format=csv&gid=0"
-)
+SHEET_API_URL = "https://script.google.com/macros/s/AKfycbyYmWspNw9yX06pqUEfNc3nnj2UdX8jQrdI5PZ1DBzAKzGDXpf5sKllp6S-YMQU-yIzqQ/exec"
 
 CACHE_TTL_SECONDS = 6 * 60 * 60  # 6 horas
 
@@ -76,13 +73,19 @@ def _to_float(value: Any) -> Optional[float]:
 
 
 def _read_google_sheet_csv() -> List[Dict[str, Any]]:
-    with urllib.request.urlopen(SHEET_CSV_URL, timeout=15) as response:
+    with urllib.request.urlopen(SHEET_API_URL, timeout=15) as response:
         raw = response.read().decode("utf-8-sig")
 
-    reader = csv.DictReader(io.StringIO(raw))
-    rows: List[Dict[str, Any]] = []
+    data = json.loads(raw)
 
-    for row in reader:
+    if isinstance(data, dict):
+        rows = data.get("data") or data.get("rows") or data.get("history") or []
+    else:
+        rows = data
+
+    clean_rows: List[Dict[str, Any]] = []
+
+    for row in rows:
         clean = {}
         for k, v in row.items():
             key = _normalize_key(k)
@@ -91,9 +94,9 @@ def _read_google_sheet_csv() -> List[Dict[str, Any]]:
         if not clean.get("date"):
             continue
 
-        rows.append(clean)
+        clean_rows.append(clean)
 
-    return rows
+    return clean_rows
 
 
 def get_fx_history_cached(force_refresh: bool = False) -> List[Dict[str, Any]]:
