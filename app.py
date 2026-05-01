@@ -52,6 +52,8 @@ from backend.services.fx_orchestrator import (
     to_pricing_snapshot
 )
 
+from backend.services.fx_sheet_cache_service import get_pricing_fx_context
+
 import requests
 
 CRONSECRET = os.getenv("CRONSECRET")
@@ -3545,6 +3547,13 @@ def get_fx_history(period: str = "7d"):
             continue
 
     return filtered
+
+@app.get("/fx/pricing-context-test")
+def fx_pricing_context_test(reference: str = "compuesto"):
+    return get_pricing_fx_context(
+        selected_reference=reference,
+        force_refresh=True
+    )
 
 @app.get("/report/pdf/{market_key}/{report_type}/{fx_key}")
 def report_pdf(request: Request, market_key: str, report_type: str, fx_key: str):
