@@ -171,16 +171,35 @@
     .insight-card{background:radial-gradient(circle at top right, rgba(34,197,94,.16), transparent 34%),linear-gradient(180deg,#ffffff,#f8fff9);display:flex;flex-direction:column;justify-content:space-between;gap:16px;}
     .bullet-list{display:grid;gap:12px;}
     .bullet{
-      display:flex;
-      align-items:flex-start;
-      gap:12px;
-      color:var(--muted);
-      line-height:1.6;
-      font-weight:650;
+      position:relative;
+      display:block;
+      color:#64748b;
+      line-height:1.75;
+      font-weight:750;
+      font-size:.98rem;
       text-align:left;
-      justify-content:flex-start;
+      padding-left:28px;
+      max-width:100%;
     }
-    .bullet::before{content:"";width:10px;height:10px;margin-top:7px;border-radius:999px;background:linear-gradient(135deg,var(--green-1),var(--green-2));flex:none;}
+
+    .bullet::before{
+      content:"";
+      position:absolute;
+      left:0;
+      top:.62em;
+      width:11px;
+      height:11px;
+      border-radius:999px;
+      background:linear-gradient(135deg,var(--green-1),var(--green-2));
+      box-shadow:0 0 0 5px rgba(34,197,94,.10);
+    }
+
+    .bullet span[data-fx-label]{
+      display:inline;
+      white-space:nowrap;
+      font-weight:900;
+      color:#475569;
+    }
 
     .chart-shell{padding:0 22px 22px;}
     .chart-card{background:var(--panel-strong);border:1px solid var(--line);box-shadow:var(--shadow-sm);border-radius:28px;padding:20px;}
@@ -662,7 +681,7 @@
           </article>
 
           <aside class="insight-card">
-            <div><h3 style="margin:0 0 16px;">Qué debería mirar la gerencia</h3></div>
+            <div><h3 style="margin:0 0 22px;">Qué debería mirar la gerencia</h3></div>
             <div class="bullet-list">
               <div class="bullet">La brecha entre <span data-fx-label="bcv">BCV</span> y <span data-fx-label="monitor">Monitor</span> muestra si existe riesgo de descapitalización.</div>
               <div class="bullet"><span data-fx-label="binance">Binance</span> y <span data-fx-label="usdt">USDT</span> ayudan a contrastar referencias transaccionales de mercado.</div>
