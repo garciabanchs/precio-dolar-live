@@ -52,7 +52,10 @@ from backend.services.fx_orchestrator import (
     to_pricing_snapshot
 )
 
-from backend.services.fx_sheet_cache_service import get_pricing_fx_context
+from backend.services.fx_sheet_cache_service import (
+    get_pricing_fx_context,
+    get_fx_history_cached
+)
 
 import requests
 
