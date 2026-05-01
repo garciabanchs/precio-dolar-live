@@ -942,7 +942,9 @@
         }
 
         if (!response.ok) {
-          uploadStatus.textContent = "No se pudo procesar el archivo. Inténtalo de nuevo.";
+          uploadStatus.textContent = result
+            ? `Error ${response.status}: ${JSON.stringify(result)}`
+            : `Error ${response.status}: No se pudo leer respuesta del servidor`;
           return;
         }
 
