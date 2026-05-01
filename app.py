@@ -896,7 +896,27 @@ def safe_float(value):
     try:
         if value is None or value == "":
             return 0.0
-        return float(str(value).replace(",", "."))
+
+        text = str(value).strip()
+
+        # limpiar símbolos
+        text = text.replace("Bs.", "").replace("Bs", "").replace("$", "").strip()
+
+        is_percent = "%" in text
+        text = text.replace("%", "").strip()
+
+        # formato venezolano: 1.234,56 → 1234.56
+        if "," in text:
+            text = text.replace(".", "").replace(",", ".")
+
+        number = float(text)
+
+        # 🔥 clave: evitar multiplicación por 100
+        if is_percent:
+            number = number / 100
+
+        return number
+
     except Exception:
         return 0.0
 
