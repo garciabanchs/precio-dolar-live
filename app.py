@@ -2697,14 +2697,9 @@ async def upload_excel(
         )
     access_status = register_unique_file_usage(client_id, file.filename, old_prices_hash)
 
-    if fx_snapshot_json:
-        fx_snapshot_raw = json.loads(fx_snapshot_json)
-        fx_snapshot = to_pricing_snapshot({
-            key: {"value": value, "status": "manual"}
-            for key, value in fx_snapshot_raw.items()
-        })
-    else:
-        fx_snapshot = None
+    # El frontend ya NO debe mandar FX.
+    # Si lo manda por compatibilidad, se ignora para pricing.
+    fx_snapshot = {}
 
     source_mapping = {
         "bcv": "bcv",
@@ -2738,6 +2733,16 @@ async def upload_excel(
             )
 
         fx_contexts[fx_key] = ctx
+
+    fx_snapshot = {
+        "bcv": safe_float(fx_contexts["bcv"]["tcbc_t"]),
+        "monitor": safe_float(fx_contexts["monitor"]["tcm_t"]),
+        "promedio": safe_float(fx_contexts["monitor"]["tcm_t"]),
+        "compuesto": safe_float(fx_contexts["compuesto"]["tcm_t"]),
+        "binance": safe_float(fx_contexts["binance"]["tcm_t"]),
+        "usdt": safe_float(fx_contexts["usdt"]["tcm_t"]),
+        "dolartoday": safe_float(fx_contexts["dolartoday"]["tcm_t"]),
+    }
 
     fx_context = fx_contexts[selected_source]
 
@@ -2797,7 +2802,7 @@ async def upload_excel(
                 tcm_t_1=fx_context_loop["tcm_t_1"],
                 tcbc_t_1=fx_context_loop["tcbc_t_1"]
             )
-
+            
             rows = []
             for _, row in df_resultado.iterrows():
                 rows.append({
