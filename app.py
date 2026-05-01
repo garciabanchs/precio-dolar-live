@@ -3726,4 +3726,3 @@ async def update_daily_fx(request: Request):
                 "type": type(e).__name__
             }
         )
-    }
