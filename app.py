@@ -3552,7 +3552,8 @@ def save_fx(data: dict = Body(...)):
 
 @app.get("/fx/history")
 def get_fx_history(period: str = "7d"):
-    history = load_fx_history()
+
+    history = get_fx_history_cached()
 
     days_map = {
         "7d": 7,
@@ -3568,24 +3569,18 @@ def get_fx_history(period: str = "7d"):
 
     for h in history:
         try:
-            raw_date = str(h.get("date", "")).strip()
-
-            if "T" in raw_date:
-                date_part = raw_date.split("T")[0]
-            else:
-                date_part = raw_date
-
-            dt = datetime.strptime(date_part, "%Y-%m-%d")
+            raw_date = str(h.get("date", "")).strip()[:10]
+            dt = datetime.strptime(raw_date, "%Y-%m-%d")
 
             if dt >= cutoff:
-                h["date"] = date_part
+                h["date"] = raw_date
                 filtered.append(h)
 
         except Exception:
             continue
 
     return filtered
-
+    
 @app.get("/fx/pricing-context-test")
 def fx_pricing_context_test(reference: str = "compuesto"):
     try:
