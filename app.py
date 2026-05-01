@@ -3688,13 +3688,20 @@ def report_ecommerce_zip(request: Request, market_key: str, fx_key: str):
 @app.post("/fx/update-daily")
 async def update_daily_fx(request: Request):
     try:
-        body = await request.json()
+        try:
+            body = await request.json()
+        except Exception:
+            raw = await request.body()
+            return {
+                "ok": False,
+                "error": f"Invalid JSON received → {raw.decode('utf-8')[:200]}"
+            }
 
         if body.get("secret") != CRONSECRET:
             raise HTTPException(status_code=403, detail="Forbidden")
 
         today = datetime.now().strftime("%Y-%m-%d")
-         
+
         data = build_flat_fx_values()
 
         if not data:
@@ -3713,7 +3720,6 @@ async def update_daily_fx(request: Request):
 
         status = save_fx_entry(entry)
 
-        # 🔥 CLAVE: respuesta corta + duplicate OK
         return {
             "ok": True,
             "status": status,
