@@ -3550,10 +3550,19 @@ def get_fx_history(period: str = "7d"):
 
 @app.get("/fx/pricing-context-test")
 def fx_pricing_context_test(reference: str = "compuesto"):
-    return get_pricing_fx_context(
-        selected_reference=reference,
-        force_refresh=True
-    )
+    try:
+        return get_pricing_fx_context(
+            selected_reference=reference,
+            force_refresh=True
+        )
+    except Exception as e:
+        return JSONResponse(
+            status_code=500,
+            content={
+                "error": str(e),
+                "type": type(e).__name__
+            }
+        )
 
 @app.get("/report/pdf/{market_key}/{report_type}/{fx_key}")
 def report_pdf(request: Request, market_key: str, report_type: str, fx_key: str):
