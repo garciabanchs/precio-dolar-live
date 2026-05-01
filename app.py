@@ -60,7 +60,7 @@ CRONSECRET = os.getenv("CRONSECRET")
 if not CRONSECRET:
     raise RuntimeError("CRONSECRET no configurado en entorno")
 
-SHEET_API = "https://script.google.com/macros/s/AKfycbyaGdtjWoZTrsfLqSRa3ZBE--9P_ENYJrQFutCuR_cMbgUGb-3xKGnp2gB1ta2CxHrS/exec"
+SHEET_API = "https://script.google.com/macros/s/AKfycbyYmWspNw9yX06pqUEfNc3nnj2UdX8jQrdI5PZ1DBzAKzGDXpf5sKllp6S-YMQU-yIzqQ/exec"
 
 app = FastAPI()
 
@@ -967,10 +967,18 @@ def save_fx_entry(entry):
     try:
         response = requests.post(SHEET_API, json=entry, timeout=20)
         response.raise_for_status()
-        return "saved"
+
+        try:
+            data = response.json()
+        except Exception:
+            return "error"
+
+        return data.get("status", "unknown")
+        
     except Exception as e:
         print("ERROR guardando en Google Sheet:", e)
-        return "error"
+
+        return f"error: {str(e)}"
 
 def calculate_compuesto(entry):
     # Tasa Recomendada Garciabanchs (TRG):
@@ -3676,29 +3684,46 @@ def report_ecommerce_zip(request: Request, market_key: str, fx_key: str):
 
 @app.post("/fx/update-daily")
 async def update_daily_fx(request: Request):
-    body = await request.json()
+    try:
+        body = await request.json()
 
-    if body.get("secret") != CRONSECRET:
-        raise HTTPException(status_code=403, detail="Forbidden")
+        if body.get("secret") != CRONSECRET:
+            raise HTTPException(status_code=403, detail="Forbidden")
 
-    today = datetime.now().strftime("%Y-%m-%d")
+        today = datetime.now().strftime("%Y-%m-%d")
+         
+        data = build_flat_fx_values()
 
-    data = build_flat_fx_values()
+        if not data:
+            raise Exception("No FX data returned from extractors")
 
-    entry = {
-        "date": today,
-        "bcv": round(safe_float(data.get("bcv")), 2),
-        "monitor": round(safe_float(data.get("monitor")), 2),
-        "binance": round(safe_float(data.get("binance")), 2),
-        "usdt": round(safe_float(data.get("usdt")), 2),
-        "dolartoday": round(safe_float(data.get("dolartoday")), 2),
-    }
+        entry = {
+            "date": today,
+            "bcv": round(safe_float(data.get("bcv")), 2),
+            "monitor": round(safe_float(data.get("monitor")), 2),
+            "binance": round(safe_float(data.get("binance")), 2),
+            "usdt": round(safe_float(data.get("usdt")), 2),
+            "dolartoday": round(safe_float(data.get("dolartoday")), 2),
+        }
 
-    entry["compuesto"] = round(calculate_compuesto(entry), 2)
+        entry["compuesto"] = round(calculate_compuesto(entry), 2)
 
-    status = save_fx_entry(entry)
+        status = save_fx_entry(entry)
 
-    return {
-        "status": status,
-        "entry": entry
+        # 🔥 CLAVE: respuesta corta + duplicate OK
+        return {
+            "ok": True,
+            "status": status,
+            "date": today
+        }
+
+    except Exception as e:
+        return JSONResponse(
+            status_code=500,
+            content={
+                "ok": False,
+                "error": str(e),
+                "type": type(e).__name__
+            }
+        )
     }
