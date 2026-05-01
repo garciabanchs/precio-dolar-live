@@ -2717,21 +2717,30 @@ async def upload_excel(
     }
 
     selected_source = source_mapping.get(market_source, "monitor")
+    if selected_source == "promedio":
+        selected_source = "monitor"
 
-    fx_context = get_pricing_fx_context(
-        selected_reference=selected_source,
-        force_refresh=False
-    )
-    
-    if fx_context.get("requires_manual"):
-        raise HTTPException(
-            status_code=400,
-            detail={
-                "message": "Faltan datos cambiarios para calcular precios.",
-                "missing_fields": fx_context.get("missing_fields", [])
-            }
+    fx_contexts = {}
+
+    for fx_key in ["bcv", "monitor", "compuesto", "binance", "usdt", "dolartoday"]:
+        ctx = get_pricing_fx_context(
+            selected_reference=fx_key,
+            force_refresh=False
         )
-    
+
+        if ctx.get("requires_manual"):
+            raise HTTPException(
+                status_code=400,
+                detail={
+                    "message": f"Faltan datos cambiarios para {fx_key}.",
+                    "missing_fields": ctx.get("missing_fields", [])
+                }
+            )
+
+        fx_contexts[fx_key] = ctx
+
+    fx_context = fx_contexts[selected_source]
+
     fx_pair = {
         "tcm_t": fx_context["tcm_t"],
         "tcbc_t": fx_context["tcbc_t"],
@@ -2769,10 +2778,7 @@ async def upload_excel(
         fx_views = {}
 
         for fx_key in ["compuesto", "monitor", "binance", "usdt", "dolartoday"]:
-            fx_context_loop = get_pricing_fx_context(
-                selected_reference=fx_key,
-                force_refresh=False
-            )
+            fx_context_loop = fx_contexts[fx_key]
         
             if fx_context_loop.get("requires_manual"):
                 raise HTTPException(
@@ -2840,7 +2846,7 @@ async def upload_excel(
     
     report_payload = {
         "company_name": company_name,
-        "report_date": real_snapshot["as_of_date"],
+        "report_date": fx_context.get("today_date"),
         "fx_meta": {
             "fx_integrity": fx_integrity,
             "fx_mode": fx_mode
