@@ -2663,7 +2663,7 @@ async def upload_excel(
     request: Request,
     response: Response,
     file: UploadFile = File(...),
-    fx_snapshot_json: str = Form(...),
+    fx_snapshot_json: str | None = Form(None),
     market_source: str = Form("monitor"),
     period_key: str = Form("d7"),
     email: str | None = Form(None)
@@ -2697,11 +2697,14 @@ async def upload_excel(
         )
     access_status = register_unique_file_usage(client_id, file.filename, old_prices_hash)
 
-    fx_snapshot = json.loads(fx_snapshot_json)
-    fx_snapshot = to_pricing_snapshot({
-        key: {"value": value, "status": "manual"}
-        for key, value in fx_snapshot.items()
-    })
+    if fx_snapshot_json:
+        fx_snapshot_raw = json.loads(fx_snapshot_json)
+        fx_snapshot = to_pricing_snapshot({
+            key: {"value": value, "status": "manual"}
+            for key, value in fx_snapshot_raw.items()
+        })
+    else:
+        fx_snapshot = None
 
     source_mapping = {
         "bcv": "bcv",
