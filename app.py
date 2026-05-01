@@ -2735,6 +2735,10 @@ async def upload_excel(
         "tcm_t_1": fx_context["tcm_t_1"],
         "tcbc_t_1": fx_context["tcbc_t_1"],
     }
+
+    real_snapshot = {
+        "as_of_date": fx_context.get("today_date")
+    }
     
     mercados_resumen = []
     report_markets = []
