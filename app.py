@@ -1051,7 +1051,14 @@ def calculate_compuesto(entry):
     return 0
 
 def fx_entry_exists(history, date):
-    return any(item.get("date") == date for item in history)
+    target = str(date).strip()[:10]
+
+    for item in history:
+        item_date = str(item.get("date", "")).strip()[:10]
+        if item_date == target:
+            return True
+
+    return False
 
 def normalize_fx_entry(data: dict, date: str | None = None) -> dict:
     entry = {
@@ -3721,6 +3728,15 @@ async def update_daily_fx(request: Request):
             raise HTTPException(status_code=403, detail="Forbidden")
 
         today = datetime.now().strftime("%Y-%m-%d")
+
+        history = load_fx_history()
+
+        if fx_entry_exists(history, today):
+            return {
+                "ok": True,
+                "status": "duplicate",
+                "date": today
+            }
 
         data = build_flat_fx_values()
 
