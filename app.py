@@ -968,17 +968,20 @@ def save_fx_entry(entry):
         response = requests.post(SHEET_API, json=entry, timeout=20)
         response.raise_for_status()
 
+        text = response.text
+        print("RESPONSE SHEET:", text)
+
         try:
             data = response.json()
         except Exception:
-            return "error"
+            return f"error: invalid json → {text[:200]}"
 
         return data.get("status", "unknown")
-        
+
     except Exception as e:
         print("ERROR guardando en Google Sheet:", e)
-
         return f"error: {str(e)}"
+        
 
 def calculate_compuesto(entry):
     # Tasa Recomendada Garciabanchs (TRG):
