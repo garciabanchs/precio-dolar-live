@@ -2715,17 +2715,27 @@ async def upload_excel(
 
     selected_source = source_mapping.get(market_source, "monitor")
 
-    real_snapshot = get_real_fx_snapshot()
-
-    fx_pair = get_reference_pair(
-        snapshot=real_snapshot,
-        market_source="oficial" if selected_source == "bcv" else "paralelo",
-        period_key=period_key
+    fx_context = get_pricing_fx_context(
+        selected_reference=selected_source,
+        force_refresh=False
     )
-
-    fx_pair["tcbc_t"] = real_snapshot.get("bcv", fx_snapshot.get("bcv", 0))
-    fx_pair["tcm_t"] = fx_snapshot[selected_source]
-
+    
+    if fx_context.get("requires_manual"):
+        raise HTTPException(
+            status_code=400,
+            detail={
+                "message": "Faltan datos cambiarios para calcular precios.",
+                "missing_fields": fx_context.get("missing_fields", [])
+            }
+        )
+    
+    fx_pair = {
+        "tcm_t": fx_context["tcm_t"],
+        "tcbc_t": fx_context["tcbc_t"],
+        "tcm_t_1": fx_context["tcm_t_1"],
+        "tcbc_t_1": fx_context["tcbc_t_1"],
+    }
+    
     mercados_resumen = []
     report_markets = []
 
@@ -2752,26 +2762,27 @@ async def upload_excel(
         fx_views = {}
 
         for fx_key in ["compuesto", "monitor", "binance", "usdt", "dolartoday"]:
-            fx_pair_loop = get_reference_pair(
-                snapshot=real_snapshot,
-                market_source="paralelo",
-                period_key=period_key
+            fx_context_loop = get_pricing_fx_context(
+                selected_reference=fx_key,
+                force_refresh=False
             )
-
-            if fx_key == "compuesto":
-                tcm_today = fx_snapshot.get("compuesto", fx_snapshot.get("promedio", fx_snapshot.get("monitor")))
-            else:
-                tcm_today = fx_snapshot.get(fx_key, fx_snapshot.get("monitor"))
-
-            tcbc_today = fx_snapshot["bcv"]
+        
+            if fx_context_loop.get("requires_manual"):
+                raise HTTPException(
+                    status_code=400,
+                    detail={
+                        "message": f"Faltan datos cambiarios para {fx_key}.",
+                        "missing_fields": fx_context_loop.get("missing_fields", [])
+                    }
+                )
 
             df_resultado, fx_factor = apply_pricing_engine(
                 df=df.copy(),
                 mercado=mercado,
-                tcm_t=tcm_today,
-                tcbc_t=tcbc_today,
-                tcm_t_1=fx_pair_loop["tcm_t_1"],
-                tcbc_t_1=fx_pair_loop["tcbc_t_1"]
+                tcm_t=fx_context_loop["tcm_t"],
+                tcbc_t=fx_context_loop["tcbc_t"],
+                tcm_t_1=fx_context_loop["tcm_t_1"],
+                tcbc_t_1=fx_context_loop["tcbc_t_1"]
             )
 
             rows = []
