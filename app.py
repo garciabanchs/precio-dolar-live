@@ -3600,6 +3600,13 @@ def fx_pricing_context_test(reference: str = "compuesto"):
             }
         )
 
+@app.get("/fx/context")
+def get_fx_context(reference: str = "compuesto"):
+    return get_pricing_fx_context(
+        selected_reference=reference,
+        force_refresh=False
+    )
+
 @app.get("/report/pdf/{market_key}/{report_type}/{fx_key}")
 def report_pdf(request: Request, market_key: str, report_type: str, fx_key: str):
     access_response = require_basic_access(request)
