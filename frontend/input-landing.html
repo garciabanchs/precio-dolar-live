@@ -11,13 +11,13 @@
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="theme-color" content="#16a34a" />
   <meta name="format-detection" content="telephone=no" />
-  <link rel="canonical" href="https://angelgarciabanche.com/precio-dolar-live" />
+  <link rel="canonical" href="https://angelgarciabanchs.com/preciodolarlive/" />
 
   <meta property="og:locale" content="es_ES" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Actualizar precios en Venezuela con Excel | PrecioDólar LIVE" />
   <meta property="og:description" content="Descarga el Excel, llénalo con tus productos y mercados, y genera tu reporte premium para actualizar precios en Venezuela con tipo de cambio real y competencia." />
-  <meta property="og:url" content="https://angelgarciabanche.com/precio-dolar-live" />
+  <meta property="og:url" content="https://angelgarciabanchs.com/preciodolarlive/" />
   <meta property="og:site_name" content="PrecioDólar LIVE" />
   <meta property="og:image" content="https://angelgarciabanchs.com/wp-content/uploads/2025/06/imagen-circular.png" />
   <meta property="og:image:alt" content="Ángel García Banchs - PrecioDólar LIVE" />
@@ -34,7 +34,7 @@
     "@context":"https://schema.org",
     "@type":"WebPage",
     "name":"PrecioDólar LIVE | Input de precios",
-    "url":"https://angelgarciabanche.com/precio-dolar-live",
+    "url":"https://angelgarciabanchs.com/preciodolarlive/",
     "description":"Landing de input para descargar, llenar y subir un Excel de actualización de precios en Venezuela con enfoque en tipo de cambio paralelo, competencia y diferencial cambiario.",
     "inLanguage":"es",
     "about":[
@@ -526,23 +526,30 @@
       <section class="hero">
         <div class="hero-copy">
           <div>
-            <div class="hero-kicker">Qué tienes que hacer</div>
-            <h2>Descarga el Excel, complétalo una sola vez y actualiza tus precios en USD en minutos.</h2>
+            <div class="hero-kicker">Actualización semanal basada en 7 días</div>
+            <h2>
+            Ajusta tus precios en USD para proteger reposición y margen 
+            comparando la última referencia contra su punto de hace 7 días.
+            </h2>
           </div>
+          <p>
+          Compara la última referencia cambiaria disponible contra su punto de hace 7 días 
+          y ajusta tus precios según el diferencial cambiario y tu posición frente a la competencia.
+          </p>
          <p>
           Descarga el archivo <strong>ListaMaestraPrecios.xlsx</strong>, complétalo con tus productos, mercados y competidores, y súbelo cuando esté listo.
         </p>
         <p>
-        En segundos tendrás tus reportes de precios en USD por mercado: operativo, ejecutivo y para tiendas.
-      </p>
+        En segundos obtienes precios actualizados con lógica de revisión semanal basada en 7 días, listos para operar sin improvisación.
+        </p>
         <p>
           Tú defines tus productos, tus mercados, tus competidores y tus criterios de decisión frente a la competencia y al diferencial cambiario. <strong>PrecioDólar LIVE hace el resto:</strong> te ayuda a cambiar precios rápido, con menos estrés y sin quedar ni por encima del mercado ni por debajo de tu costo real.
         </p>
           <div class="decap-box">
-           <div class="decap-title">Estás perdiendo</div>
+           <div class="decap-title">Si fijas tus precios en USD hoy a la tasa oficial del BCV, pierdes</div>
             <div class="decap-value" id="fx-decap">-</div>
             <div class="decap-sub">
-              Si usas BCV, te descapitalizas frente al mercado real
+              de capacidad de reposición de inventario frente al mercado paralelo
             </div>
           </div>
           <div class="cta-row">
@@ -869,6 +876,9 @@
     excelFileInput.addEventListener("change", () => {
       if (excelFileInput.files.length > 0) {
         selectedFileName.textContent = `Archivo seleccionado: ${excelFileInput.files[0].name}`;
+
+        // uploadForm.requestSubmit(); // 🔥 ESTA ES LA CLAVE
+
       } else {
         selectedFileName.textContent = "Ningún archivo seleccionado.";
       }
@@ -895,18 +905,6 @@
         formData.append("email", email);
 }
       formData.append("file", excelFileInput.files[0]);
-
-      formData.append(
-        "fx_snapshot_json",
-        JSON.stringify({
-          bcv: 64.85,
-          monitor: 92.40,
-          promedio: 92.85,
-          binance: 93.10,
-          usdt: 92.75,
-          dolartoday: 94.20
-        })
-      );
 
       formData.append("market_source", "monitor");
       formData.append("period_key", "d7");
