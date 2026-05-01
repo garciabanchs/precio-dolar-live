@@ -955,10 +955,10 @@ FX_HISTORY_CACHE = {
     "loaded_at": None
 }
 
-def load_fx_history():
+def load_fx_history(force_refresh=False):
     now = datetime.now(timezone.utc)
 
-    if FX_HISTORY_CACHE["loaded_at"]:
+    if not force_refresh and FX_HISTORY_CACHE["loaded_at"]:
         age = (now - FX_HISTORY_CACHE["loaded_at"]).total_seconds()
         if age < 300:
             return FX_HISTORY_CACHE["data"]
@@ -3729,7 +3729,7 @@ async def update_daily_fx(request: Request):
 
         today = datetime.now().strftime("%Y-%m-%d")
 
-        history = load_fx_history()
+        history = load_fx_history(force_refresh=True)
 
         if fx_entry_exists(history, today):
             return {
