@@ -930,9 +930,11 @@
                 <a href="https://buy.stripe.com/fZuaEX5D47gJdMp68BaVa01" target="_blank" style="background:#14532d;color:white;padding:10px 14px;border-radius:8px;text-decoration:none;font-weight:bold;">
                   Plan Premium — 99 USD
                 </a>
-                  <a href="${API_BASE}/pago-bs?email=${encodeURIComponent(email)}" target="_blank" style="background:#22c55e;color:white;padding:10px 14px;border-radius:8px;text-decoration:none;font-weight:bold;">
-                  Pagar en bolívares / Pago móvil
-                </a>
+                  ${email ? `
+                    <a href="${API_BASE}/pago-bs?email=${encodeURIComponent(email)}" target="_blank" style="background:#22c55e;color:white;padding:10px 14px;border-radius:8px;text-decoration:none;font-weight:bold;">
+                      Pagar en bolívares / Pago móvil
+                    </a>
+                  ` : ""}
               </div>
             </div>
           `;
